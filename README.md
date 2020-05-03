@@ -14,9 +14,15 @@ void remove(name);
 boolean search(name);
 
 Q4. Implement your own XOR Linked List in Java capable of storing names. Your implementation should have the following method, written below in pseduocode,. Note: how you define the methods and classes needed to implement you XOR Linked List etc. is up to you.
-public public public public
-void insertAfter(String after, String newObj) void insertBefore(String before , String newObj) String removeAfter(String after)
-String removeBefore(String before)
+
+public void insertAfter(String after, String newObj) 
+
+public void insertBefore(String before , String newObj) 
+
+public String removeAfter(String after)
+
+public String removeBefore(String before)
+
 NOTE: For questions 2 to 4 you should test your algorithms with the list of 5000+ names provided.
 
 Q5. Implement an algorithm in C which given a block of text as input, redacts all words from a given set of “redactable” words. For example, given the block of text,
