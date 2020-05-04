@@ -109,13 +109,14 @@ int main() {
 
     int *ptr;
     ptr = generate100Rand();
+    printf("Unsorted List: ");
     for (int i = 0; i < 100; i++ ) {
-      //printf( "*(ptr + %d) : %d\n", i, *(ptr + i));
+      printf( "Number: %d : %d\n", i+1, *(ptr + i));
     }
     ptr = cocktailSort(ptr);
 
     for (int i = 0; i < 100; i++ ) {
-      printf( "*(ptr + %d) : %d\n", i, *(ptr + i));
+      printf( "Number: %d : %d\n", i+1, *(ptr + i));
     }
 
     //char ret[4] = "4896";
