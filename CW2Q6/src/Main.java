@@ -12,13 +12,75 @@ public class Main {
                 "Boris Drubetskoy\n" +
                 "Vasili Kuragin\n" +
                 "Nicholas Rostov\n";
+        System.out.println(text);
         for (int i = 1; i < text.length(); i++) {
+            char currentChar = getChar(text, i);
             // if text is a capital, and previous character was a space, and the character before that was not a fullstop
-            if (getChar(text, i) >= 65 && getChar(text, i) <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46) {
+            // i.e. proper pronoun in middle of a sentence
+            if (currentChar >= 65 && currentChar <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46) {
                 text = removeWords(text, i);
+            } else if (currentChar == 46 || currentChar == 10) { // need to check if word is proper noun if at start of sentence or paragraph
+
             }
+
+        }
+        String[] redactedList = getRedactedArray(redact);
+        for (int j = 1; j < redactedList.length; j++) {
+            
+
+
+
+            System.out.println(redactedList[j]);
         }
         System.out.println(text);
+    }
+
+    public static String[] getRedactedArray(String redactedWordsList) {
+        String[] redactedWordsArray = new String[1];
+        String redactedWord;
+        int startIndex = 0;
+        while (startIndex < redactedWordsList.length()) {
+            redactedWord = getWordAtIndex(redactedWordsList, startIndex);
+            redactedWordsArray = addElement(redactedWordsArray, redactedWord);
+            startIndex = getWordEndIndex(redactedWordsList,startIndex) + 1;
+        }
+        return redactedWordsArray;
+    }
+
+    public static String[] addElement(String[] array, String element) {
+        // temp array to store the array's data
+        String[] tempArray = new String[array.length];
+        // fill it with the array's data
+        for(int i = 0; i < array.length; i++){
+            tempArray[i] = array[i];
+        }
+        // increase array's size
+        array = new String[array.length+1];
+        // fill the array with the original data
+        for(int i = 0; i < tempArray.length; i++){
+            array[i] = tempArray[i];
+        }
+        // add the new element in
+        array[array.length-1] = element;
+        return array;
+    }
+
+    public static String getWordAtIndex(String text, int startIndex) {
+        int endIndex = getWordEndIndex(text, startIndex);
+        String word = text.substring(startIndex, endIndex);
+        return word;
+    }
+
+    // gets the index of where the word ends
+    public static int getWordEndIndex(String text, int startIndex) {
+        for (int i = startIndex; i < text.length(); i++) {
+            char character = getChar(text, i);
+            // if the next char is a space return i
+            if (character == 32 || character == 10) {
+                return i;
+            }
+        }
+        return text.length();
     }
 
     public static String removeWords(String text, int startIndex) {
@@ -34,7 +96,7 @@ public class Main {
     }
 
     public static String replaceCharAt(String text, int index, char replaceWith) {
-        return text.substring(0, index) + replaceWith + text.substring(index + 1, text.length() - 1);
+        return text.substring(0, index) + replaceWith + text.substring(index + 1, text.length());
     }
 
 
