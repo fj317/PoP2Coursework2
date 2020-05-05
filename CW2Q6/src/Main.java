@@ -19,18 +19,15 @@ public class Main {
             // i.e. proper pronoun in middle of a sentence
             if (currentChar >= 65 && currentChar <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46) {
                 text = removeWords(text, i);
-            } else if (currentChar == 46 || currentChar == 10) { // need to check if word is proper noun if at start of sentence or paragraph
-
+            } else if ((currentChar == 46 || currentChar == 10) && i < text.length() - 1) { // need to check if word is proper noun if at start of sentence or paragraph
+                String[] redactedList = getRedactedArray(redact);
+                String currentWord = getWordAtIndex(text, i + 2);
+                for (int j = 1; j < redactedList.length; j++) {
+                    if (currentWord.equals(redactedList[j])) {
+                        text = removeWords(text, i + 2);
+                    }
+                }
             }
-
-        }
-        String[] redactedList = getRedactedArray(redact);
-        for (int j = 1; j < redactedList.length; j++) {
-            
-
-
-
-            System.out.println(redactedList[j]);
         }
         System.out.println(text);
     }
