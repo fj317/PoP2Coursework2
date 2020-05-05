@@ -40,7 +40,6 @@ void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) 
         }
     }
     thisItem->lastItem = 1;
-    printf("Set for index %d\n", thisItem->charIndex);
 }
 
 int lengthToNextWord(char *text, int index) {
@@ -51,34 +50,48 @@ int lengthToNextWord(char *text, int index) {
     return num + 1;
 }
 
+int countRedactedSpaces(char *redactWords) {
+    int len = stringLength(redactWords);
+    int spaceCount = 0;
+    for (int i = 0; i < len; i++) {
+        if (redactWords[i] == ' ') {
+            spaceCount ++;
+        }
+    }
+    return spaceCount;
+}
+
 void removeWords(char* text, char *redactWords, struct RedactedListItem* firstItem) {
     int len = stringLength(text);
+    int count = 0;
     for (int i = 0; i < len; i = i + lengthToNextWord(text, i)) {
-        printf("%d\n", i);
         int wordStart = i;
         struct RedactedListItem *currentItem;
         currentItem = firstItem;
-        while (currentItem->lastItem == 0) {
-            printf("%d\n", currentItem->lastItem);
-        //     bool matched = false;
-        //     int currentIndex = currentItem->charIndex;
-        //     while (text[i] == redactWords[currentIndex]) {
-        //         if (text[i] == ' ' && redactWords[currentIndex] == ' ') {
-        //             for (int j = wordStart; j < i; j++) {
-        //                 text[j] = '*';
-        //             }
-        //             matched = true;
-        //             continue;
-        //         }
-        //         i++;
-        //         currentIndex++;
-        //     }
-        //     if (matched) {
-        //         continue;
-        //     } else {
-        //         i = wordStart;
-        //     }
+        printf("here\n");
+        while (count < countRedactedSpaces(redactWords) + 1)  {
+            bool matched = false;
+            int currentIndex = currentItem->charIndex;
+            printf("text[i]: %c, redactWords[currentindex]:%c, currentIndex: %d\n", text[i], redactWords[currentIndex], currentIndex);
+            while (text[i] == redactWords[currentIndex]) {
+                if (text[i] == ' ' && redactWords[currentIndex] == ' ') {
+                    for (int j = wordStart; j < i; j++) {
+                        text[j] = '*';
+                    }
+                    matched = true;
+                    continue;
+                }
+                i++;
+                currentIndex++;
+            }
+            if (matched) {
+                continue;
+            } else {
+                i = wordStart;
+            }
+            printf("Next redactedWord\n\n");
             currentItem = currentItem->nextItem;
+            count ++;
         }
     }
 }
