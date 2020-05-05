@@ -23,7 +23,7 @@ public class Main {
 
     public static String removeWords(String text, int startIndex) {
         for (int i = startIndex; i < text.length(); i++) {
-            if (getChar(text, i) == 32) {
+            if (getChar(text, i) >= 32 && getChar(text, i) <= 45) {
                 for (int j = startIndex; j < i; j++) {
                     text = replaceCharAt(text, j, '*');
                 }
