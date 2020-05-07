@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef int bool;
 #define true 1
@@ -6,8 +7,8 @@ typedef int bool;
 
 struct RedactedListItem {
     int charIndex;
-    int lastItem;
-    struct RedactedListItem *nextItem;
+    int item;
+    struct RedactedListItem* nextItem;
 };
 
 // checks for terminating value and returns the length
@@ -28,18 +29,19 @@ char *clearArray(char* array) {
 
 void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) {
     int len = stringLength(redactedWords);
+    int count = 0;
     firstItem->charIndex = 0;
+    firstItem->item = count++;
     struct RedactedListItem *thisItem = firstItem;
     for (int i = 1; i < len; i++) {
         if (redactedWords[i] == ' ') {
-            struct RedactedListItem newItem;
-            newItem.charIndex = i;
-            newItem.lastItem = 0;
-            thisItem->nextItem = &newItem;
-            thisItem = &newItem;
+            struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(sizeof(struct RedactedListItem));
+            newItem->charIndex = ++i;
+            newItem->item = count++;
+            thisItem->nextItem = newItem;
+            thisItem = newItem;
         }
     }
-    thisItem->lastItem = 1;
 }
 
 int lengthToNextWord(char *text, int index) {
@@ -68,39 +70,43 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
         int wordStart = i;
         struct RedactedListItem *currentItem;
         currentItem = firstItem;
-        printf("here\n");
-        while (count < countRedactedSpaces(redactWords) + 1)  {
+        //printf("New text word\n");
+        // while (count < countRedactedSpaces(redactWords) + 1)  {
+        while (currentItem != NULL) {
             bool matched = false;
             int currentIndex = currentItem->charIndex;
-            printf("text[i]: %c, redactWords[currentindex]:%c, currentIndex: %d\n", text[i], redactWords[currentIndex], currentIndex);
+            printf("text[i]: %c, redactWords[currentindex]:%c, currentIndex: %d, currentItemCount %d\n", text[i], redactWords[currentIndex], currentIndex, currentItem->item);
             while (text[i] == redactWords[currentIndex]) {
+                //printf("matched\n i is currently %d. currentindex is currently %d", i, currentIndex);
                 if (text[i] == ' ' && redactWords[currentIndex] == ' ') {
                     for (int j = wordStart; j < i; j++) {
                         text[j] = '*';
                     }
                     matched = true;
-                    continue;
+                    break;
                 }
                 i++;
                 currentIndex++;
             }
             if (matched) {
-                continue;
+                break;
             } else {
                 i = wordStart;
             }
-            printf("Next redactedWord\n\n");
+            printf("Next redactedWord/keyword\n\n");
+            
             currentItem = currentItem->nextItem;
-            count ++;
+            count++;
         }
     }
 }
 
 int main(void) {
-    char text[] = "The quick brown fox jumps over the lazy dog";
-    char redactWords[] = "the jumps lazy";
+    char text[] = "the quick brown fox jumps over the lazy dog";
+    char redactWords[] = "the jumps lazy ";
     struct RedactedListItem firstItem;
     setupRedactedList(&firstItem, redactWords);
+    // printf("first redact index: %d, second index %d, third index %d\n", firstItem.charIndex, firstItem.nextItem->charIndex, firstItem.nextItem->nextItem->charIndex);
     removeWords(text, redactWords, &firstItem);
     printf("%s", text);
     return 0;
