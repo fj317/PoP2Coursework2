@@ -59,7 +59,7 @@ int createRand(int seed) {
     return returnNum;
 }
 
-int * generate100Rand() {
+int *generate100Rand() {
     static int numbers[99];
     int seed = 1111;
     for (int i = 0; i < 99; i++) {
@@ -69,14 +69,14 @@ int * generate100Rand() {
     return numbers;
 }
 
-int * swap(int *toSwapPointer, int indexA, int indexB) {
+int *swap(int *toSwapPointer, int indexA, int indexB) {
     int temp = toSwapPointer[indexB];
     toSwapPointer[indexB] = toSwapPointer[indexA];
     toSwapPointer[indexA] = temp;
     return toSwapPointer;
 }
 
-int * cocktailSort(int *ptr) {
+int *cocktailSort(int *ptr) {
 
     // boolean - 0 is false, 1 is true
     int swapped;
@@ -103,7 +103,7 @@ int * cocktailSort(int *ptr) {
 }
 
 
-int main() {
+int main(void) {
     //char test = createRand(2343);
     //printf("\n%d\n", test);
 
