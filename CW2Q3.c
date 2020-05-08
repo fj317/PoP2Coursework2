@@ -31,13 +31,14 @@ unsigned long hash(unsigned char *str)
     return hash / 100;
 }
 
-/* bool search(unsigned char name[], struct dataItem* hasharray[]) {
+bool search(unsigned char name[], struct dataItem* hasharray) {
     int hashIndex = hash(name);
-    if (hasharray[hashIndex] != NULL) {
+    //printf("value %x\n", hasharray[hashIndex].charValue[0]);
+    /* if (hasharray[hashIndex].charValue[0] != name[0]) {
         return true;
-    }
+    } */ 
     return false;
-}  */
+} 
 
 void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
     int len = stringLength(name);
@@ -48,15 +49,17 @@ void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
     }
 }
 
-void addName(unsigned char name[], struct dataItem* hashArray, int tableSize) {
+struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, int tableSize) {
     unsigned long hashResult = hash(name);
     if (hashResult > tableSize) {
-        hashArray = (struct dataItem*) malloc(sizeof(struct dataItem) * hashResult);
+        hashArray = (struct dataItem*) realloc(hashArray, sizeof(struct dataItem) * hashResult);
         printf("Increased size to %lu\n", hashResult);
     }
     struct dataItem *firstChar = (struct dataItem*) malloc(sizeof(struct dataItem));
     setupDataItem(name, firstChar);
-    hashArray[hashResult] = *firstChar;
+    hashArray[hashResult - 1] = *firstChar;
+    printf("value %s\n", hashArray[hashResult - 1].charValue);
+    return hashArray;
 }
 
 void removeName(unsigned char name[], struct dataItem* hasharray) {
@@ -69,8 +72,9 @@ int main(void) {
     int tableSize = 1;
     printf("%s\n", text);
 
-    struct dataItem hashArray[tableSize];
-    addName(text, hashArray, tableSize);
+    struct dataItem *hashArray = (struct dataItem*) malloc(tableSize * sizeof(struct dataItem));
+    hashArray = addName(text, hashArray, tableSize);
+    unsigned long hashIndex = hash(text);
+    printf("value %s\n", hashArray[hashIndex - 1].charValue);
     //printf("Is there a value for Freddie? %d", search(text, hashArray));
-
 }
