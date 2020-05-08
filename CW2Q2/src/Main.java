@@ -22,6 +22,7 @@ public class Main {
         for (int i = 0; i < names.length; i ++) {
             System.out.println(names[i]);
         }
+        br.close();
     }
 
     // removes a char from a string and replaces it with no character
