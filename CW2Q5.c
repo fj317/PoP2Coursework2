@@ -71,8 +71,6 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
         int wordStart = i;
         struct RedactedListItem *currentItem;
         currentItem = firstItem;
-        //printf("New text word\n");
-        // while (count < countRedactedSpaces(redactWords) + 1)  {
         while (currentItem != NULL) {
             bool matched = false;
             int currentIndex = currentItem->charIndex;
