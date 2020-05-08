@@ -36,7 +36,7 @@ void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) 
     struct RedactedListItem *thisItem = firstItem;
     for (int i = 1; i < len; i++) {
         if (redactedWords[i] == ' ') {
-            struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(count);
+            struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(sizeof(struct RedactedListItem));
             newItem->charIndex = ++i;
             newItem->item = count++;
             thisItem->nextItem = newItem;
