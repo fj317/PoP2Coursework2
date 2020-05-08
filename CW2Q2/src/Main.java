@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         // reads from local file names.txt
-        File file = new File("../Files/Names/names.txt");
+        File file = new File("../../Files/Names/names.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         // stores the names that are read from txt file
         String line;
