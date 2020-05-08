@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// own bool type
 typedef int bool;
 #define true 1
 #define false 0
@@ -35,7 +36,7 @@ void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) 
     struct RedactedListItem *thisItem = firstItem;
     for (int i = 1; i < len; i++) {
         if (redactedWords[i] == ' ') {
-            struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(sizeof(struct RedactedListItem));
+            struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(count);
             newItem->charIndex = ++i;
             newItem->item = count++;
             thisItem->nextItem = newItem;
@@ -75,9 +76,7 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
         while (currentItem != NULL) {
             bool matched = false;
             int currentIndex = currentItem->charIndex;
-            printf("text[i]: %c, redactWords[currentindex]:%c, currentIndex: %d, currentItemCount %d\n", text[i], redactWords[currentIndex], currentIndex, currentItem->item);
             while (text[i] == redactWords[currentIndex]) {
-                //printf("matched\n i is currently %d. currentindex is currently %d", i, currentIndex);
                 if (text[i] == ' ' && redactWords[currentIndex] == ' ') {
                     for (int j = wordStart; j < i; j++) {
                         text[j] = '*';
@@ -93,7 +92,6 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
             } else {
                 i = wordStart;
             }
-            printf("Next redactedWord/keyword\n\n");
             
             currentItem = currentItem->nextItem;
             count++;
