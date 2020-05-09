@@ -31,13 +31,14 @@ unsigned long hash(unsigned char *str)
     return hash / 100;
 }
 
-bool search(unsigned char name[], struct dataItem* hasharray) {
-    int hashIndex = hash(name);
-    //printf("value %x\n", hasharray[hashIndex].charValue[0]);
-    /* if (hasharray[hashIndex].charValue[0] != name[0]) {
-        return true;
-    } */ 
-    return false;
+bool search(unsigned char name[], struct dataItem* hashArray, unsigned long maxTableSize) {
+    unsigned long hashIndex = hash(name) - 1;
+    if (hashIndex > maxTableSize) {
+        return false;
+    } else if (hashArray[hashIndex].charValue == NULL) {
+        return false;
+    }
+    return true;
 } 
 
 void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
@@ -49,16 +50,15 @@ void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
     }
 }
 
-struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, int tableSize) {
+struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsigned long *tableSize) {
     unsigned long hashResult = hash(name);
-    if (hashResult > tableSize) {
+    if (hashResult > *tableSize) {
         hashArray = (struct dataItem*) realloc(hashArray, sizeof(struct dataItem) * hashResult);
-        printf("Increased size to %lu\n", hashResult);
+        *tableSize = hashResult;
     }
     struct dataItem *firstChar = (struct dataItem*) malloc(sizeof(struct dataItem));
     setupDataItem(name, firstChar);
     hashArray[hashResult - 1] = *firstChar;
-    printf("value %s\n", hashArray[hashResult - 1].charValue);
     return hashArray;
 }
 
@@ -69,12 +69,13 @@ void removeName(unsigned char name[], struct dataItem* hasharray) {
 
 int main(void) {
     unsigned char text[] = "Freddie";
-    int tableSize = 1;
-    printf("%s\n", text);
+    unsigned char text2[] = "Freddie";
+    unsigned long tableSize = 1;
+    printf("Text to add: %s\n", text);
 
     struct dataItem *hashArray = (struct dataItem*) malloc(tableSize * sizeof(struct dataItem));
-    hashArray = addName(text, hashArray, tableSize);
-    unsigned long hashIndex = hash(text);
-    printf("value %s\n", hashArray[hashIndex - 1].charValue);
-    //printf("Is there a value for Freddie? %d", search(text, hashArray));
+    hashArray = addName(text, hashArray, &tableSize);
+    unsigned long hashIndex = hash(text) - 1;
+    printf("value %s @ index %lu. Table size %lu\n", hashArray[hashIndex].charValue, hashIndex, tableSize);
+    printf("Is there a value for Freddie? %d", search(text2, hashArray, tableSize));
 }
