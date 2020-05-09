@@ -12,13 +12,13 @@ public class Main {
                 "Vasili Kuragin\n" +
                 "Nicholas Rostov\n";
         System.out.println(text);
-        for (int i = 1; i < text.length(); i++) {
+        for (int i = 1; i < length(text); i++) {
             char currentChar = getChar(text, i);
             // if text is a capital, and previous character was a space, and the character before that was not a fullstop
             // i.e. proper pronoun in middle of a sentence
             if (currentChar >= 65 && currentChar <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46) {
                 text = removeWords(text, i);
-            } else if ((currentChar == 46 || currentChar == 10) && i < text.length() - 1) { // need to check if word is proper noun if at start of sentence or paragraph
+            } else if ((currentChar == 46 || currentChar == 10) && i < length(text) - 1) { // need to check if word is proper noun if at start of sentence or paragraph
                 String[] redactedList = getRedactedArray(redact);
                 String currentWord = getWordAtIndex(text, i + 2);
                 for (int j = 1; j < redactedList.length; j++) {
@@ -35,7 +35,7 @@ public class Main {
         String[] redactedWordsArray = new String[1];
         String redactedWord;
         int startIndex = 0;
-        while (startIndex < redactedWordsList.length()) {
+        while (startIndex < length(redactedWordsList)) {
             redactedWord = getWordAtIndex(redactedWordsList, startIndex);
             redactedWordsArray = addElement(redactedWordsArray, redactedWord);
             startIndex = getWordEndIndex(redactedWordsList,startIndex) + 1;
@@ -69,18 +69,18 @@ public class Main {
 
     // gets the index of where the word ends
     public static int getWordEndIndex(String text, int startIndex) {
-        for (int i = startIndex; i < text.length(); i++) {
+        for (int i = startIndex; i < length(text); i++) {
             char character = getChar(text, i);
             // if the next char is a space return i
             if (character == 32 || character == 10) {
                 return i;
             }
         }
-        return text.length();
+        return length(text);
     }
 
     public static String removeWords(String text, int startIndex) {
-        for (int i = startIndex; i < text.length(); i++) {
+        for (int i = startIndex; i < length(text); i++) {
             if (getChar(text, i) >= 32 && getChar(text, i) <= 45) {
                 for (int j = startIndex; j < i; j++) {
                     text = replaceCharAt(text, j, '*');
@@ -92,7 +92,7 @@ public class Main {
     }
 
     public static String replaceCharAt(String text, int index, char replaceWith) {
-        return text.substring(0, index) + replaceWith + text.substring(index + 1, text.length());
+        return text.substring(0, index) + replaceWith + text.substring(index + 1, length(text));
     }
 
 
@@ -100,5 +100,10 @@ public class Main {
     public static char getChar(String word, int index) {
         char[] wordSplit = word.toCharArray();
         return wordSplit[index];
+    }
+
+    public static int length(String text) {
+        char[] textSplit = text.toCharArray();
+        return textSplit.length;
     }
 }
