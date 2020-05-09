@@ -21,13 +21,6 @@ int stringLength(char* ptr) {
     return length;
 }
 
-char *clearArray(char* array) {
-    for (int i = 0; i < stringLength(array); i++) {
-        array[i] = '\0';
-    }
-    return array;
-}
-
 void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) {
     int len = stringLength(redactedWords);
     int count = 0;
