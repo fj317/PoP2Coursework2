@@ -60,6 +60,7 @@ struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsig
     struct dataItem *firstChar = (struct dataItem*) malloc(sizeof(struct dataItem));
     setupDataItem(name, firstChar);
     hashArray[hashResult - 1] = *firstChar;
+    printf("Data item %s has been added.\n", name);
     return hashArray;
 }
 
@@ -72,7 +73,7 @@ void removeName(unsigned char name[], struct dataItem* hashArray, unsigned long 
         printf("Name does not exist in table.\n");       
     } else {
         hashArray[hashIndex].charValue = NULL;
-        printf("Value %s has been removed.\n", name);
+        printf("Data item %s has been removed.\n", name);
     }
 }
 
@@ -80,11 +81,10 @@ void removeName(unsigned char name[], struct dataItem* hashArray, unsigned long 
 int main(void) {
     unsigned char text[] = "Freddie";
     unsigned long tableSize = 1;
-    printf("Text to add: %s\n", text);
 
     struct dataItem *hashArray = (struct dataItem*) malloc(tableSize * sizeof(struct dataItem));
     hashArray = addName(text, hashArray, &tableSize);
     removeName(text, hashArray, tableSize);
     unsigned long hashIndex = hash(text) - 1;
-    printf("Is there a value for Freddie? %d", search(text, hashArray, tableSize));
+    //printf("Is there a value for Freddie? %d", search(text, hashArray, tableSize));
 }
