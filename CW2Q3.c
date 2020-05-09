@@ -62,20 +62,21 @@ struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsig
     return hashArray;
 }
 
-void removeName(unsigned char name[], struct dataItem* hasharray) {
-    
+void removeName(unsigned char name[], struct dataItem* hashArray) {
+        unsigned long hashIndex = hash(name) - 1;
+        hashArray[hashIndex].charValue = NULL;
 }
 
 
 int main(void) {
     unsigned char text[] = "Freddie";
-    unsigned char text2[] = "Freddie";
     unsigned long tableSize = 1;
     printf("Text to add: %s\n", text);
 
     struct dataItem *hashArray = (struct dataItem*) malloc(tableSize * sizeof(struct dataItem));
     hashArray = addName(text, hashArray, &tableSize);
+    printf("Is there a value for Freddie? %d\n", search(text, hashArray, tableSize));
+    removeName(text, hashArray);
     unsigned long hashIndex = hash(text) - 1;
-    printf("value %s @ index %lu. Table size %lu\n", hashArray[hashIndex].charValue, hashIndex, tableSize);
-    printf("Is there a value for Freddie? %d", search(text2, hashArray, tableSize));
+    printf("Is there a value for Freddie? %d", search(text, hashArray, tableSize));
 }
