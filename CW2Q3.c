@@ -50,6 +50,7 @@ void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
     }
 }
 
+// add method, needs to return pointer to start of array as it may resize depending on the input to dynamicly adjust the amount of memory needed
 struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsigned long *tableSize) {
     unsigned long hashResult = hash(name);
     if (hashResult > *tableSize) {
@@ -62,9 +63,17 @@ struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsig
     return hashArray;
 }
 
-void removeName(unsigned char name[], struct dataItem* hashArray) {
-        unsigned long hashIndex = hash(name) - 1;
+// remove method, removes a value from the hash table
+void removeName(unsigned char name[], struct dataItem* hashArray, unsigned long tableSize) {
+    unsigned long hashIndex = hash(name) - 1;
+    if (hashIndex > tableSize) {
+        printf("Name does not exist in table.\n");
+    } else if (hashArray[hashIndex].charValue == NULL) {
+        printf("Name does not exist in table.\n");       
+    } else {
         hashArray[hashIndex].charValue = NULL;
+        printf("Value %s has been removed.\n", name);
+    }
 }
 
 
@@ -75,8 +84,7 @@ int main(void) {
 
     struct dataItem *hashArray = (struct dataItem*) malloc(tableSize * sizeof(struct dataItem));
     hashArray = addName(text, hashArray, &tableSize);
-    printf("Is there a value for Freddie? %d\n", search(text, hashArray, tableSize));
-    removeName(text, hashArray);
+    removeName(text, hashArray, tableSize);
     unsigned long hashIndex = hash(text) - 1;
     printf("Is there a value for Freddie? %d", search(text, hashArray, tableSize));
 }
