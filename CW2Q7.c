@@ -70,8 +70,8 @@ void padMessage(char *text, char *padText, int paddedLength) {
 int main(void) {
     char text[] = "ATTACKATDA";
     char key[] = "KEYS";
+    
     int paddedLength = stringLength(text) + (stringLength(text) % stringLength(key));
-
     char paddedText[paddedLength];
     padMessage(text, paddedText, paddedLength);
     printf("Pad message: %s\n", paddedText);
