@@ -8,10 +8,6 @@ int stringLength(char* ptr) {
     return length;
 }
 
-// int intLength(int num) {
-//     return num % 10;
-// }
-
 //https://www.udemy.com/blog/c-string-to-int/
 int stringToInt(char* ptr) {
     int len = stringLength(ptr);
