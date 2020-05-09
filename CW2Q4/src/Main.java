@@ -25,8 +25,8 @@ public class Main {
     public static Node[] setupHeadTail(Node[] linkedList) {
         linkedList[0].setName("HEAD");
         linkedList[0].setPointer(1);
-        linkedList[50].setName("TAIL");
-        linkedList[50].setPointer(0);
+        linkedList[1].setName("TAIL");
+        linkedList[1].setPointer(0);
         /*linkedList[5].setName("data1");
         linkedList[5].setPointer(14);
         linkedList[14].setName("data2");
@@ -56,7 +56,7 @@ public class Main {
                 linkedList[newIndex] = newObj;
                 // updating the next item in the list's pointer to include the new item
                 nextNode = prevNode ^ currentNode.getPointer();
-                linkedList[nextNode].setPointer(newIndex ^ (currentNode.getPointer() ^ nextNode));
+                linkedList[nextNode].setPointer(newIndex ^ (address ^ linkedList[nextNode].getPointer()));
                 // updating the current pointer to include the new item
                 currentNode.setPointer(newIndex ^ prevNode);
                 break;
