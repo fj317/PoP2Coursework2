@@ -1,22 +1,37 @@
+import java.io.*;
+
 public class Main {
-    public static void main(String[] args) {
-        String text = "It was in July, 1805, and the speaker was the well-known Anna Pavlovna Scherer, maid of honor and favorite of the Empress Marya Fedorovna. With these words she greeted Prince Vasili Kuragin, a man of high rank and importance, who was the first to arrive at her reception. Anna Pavlovna had had a cough for some days. She was, as she said, suffering from la grippe; grippe being then a new word in St. Petersburg, used only by the elite.";
-        String redact = "Ilya Rostov\n" +
-                "St. Petersburg \n" +
-                "Marya Fedorovna\n" +
-                "Moscow\n" +
-                "Anna Pavlovna Scherer\n" +
-                "Countess Bezukhova\n" +
-                "Andrew Bolkonski\n" +
-                "Boris Drubetskoy\n" +
-                "Vasili Kuragin\n" +
-                "Nicholas Rostov\n";
-        System.out.println(text);
+    public static void main(String[] args) throws IOException {
+        // CHANGE THIS LINE TO CHANGE WHAT FILE IS READ
+        String fileToRedact = "../Files/Q6/warandpeaceChapter1.txt";
+        // REDACT TEXT READING
+        // reads from local file redact.txt
+        File file = new File("../Files/Q6/redact.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        // stores the names that are read from txt file
+        String line;
+        String redact = "";
+        // reads the redacted text from redact.txt
+        while ((line = br.readLine()) != null) {
+            redact = redact + line + " ";
+        }
+        // WAR&PEACE TEXT READING
+        file = new File(fileToRedact);
+        br = new BufferedReader(new FileReader(file));
+        String text = "";
+        // reads the chapter text from warandpeace.txt
+        while ((line = br.readLine()) != null) {
+            text = text + line + " ";
+        }
+
+        //System.out.println(text);
         for (int i = 1; i < length(text); i++) {
             char currentChar = getChar(text, i);
             // if text is a capital, and previous character was a space, and the character before that was not a fullstop
+            // Also checks for the letter I by checking if the character after it is a space or not
             // i.e. proper pronoun in middle of a sentence
-            if (currentChar >= 65 && currentChar <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46) {
+            if (currentChar >= 65 && currentChar <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46 && (currentChar != 'I' && getChar(text, i + 1) != ' ')) {
+                //if (currentChar != 'I' && getChar(text, i + 1) != ' ')
                 text = removeWords(text, i);
             } else if ((currentChar == 46 || currentChar == 10) && i < length(text) - 1) { // need to check if word is proper noun if at start of sentence or paragraph
                 String[] redactedList = getRedactedArray(redact);
@@ -28,7 +43,12 @@ public class Main {
                 }
             }
         }
-        System.out.println(text);
+        File fileOutput = new File("../Files/Q6/redactedOutput.txt");
+        fileOutput.createNewFile();
+        FileWriter fileWriter = new FileWriter(fileOutput);
+        fileWriter.write(text);
+        fileWriter.close();
+        System.out.println("Redacted text has been outputted to file.");
     }
 
     public static String[] getRedactedArray(String redactedWordsList) {
@@ -105,5 +125,20 @@ public class Main {
     public static int length(String text) {
         char[] textSplit = text.toCharArray();
         return textSplit.length;
+    }
+
+    // removes a char from a string and replaces it with no character
+    public static String removeChar(String words, char toReplace) {
+        String result = "";
+        // loops through the string
+        for (int i = 0; i < words.length(); i++) {
+            // if the character the current index is located at is NOT the word to replace then it adds it to the string
+            // otherwise it does not add it, therefore the character is removed
+            char character = getChar(words,i);
+            if (character != toReplace) {
+                result += character;
+            }
+        }
+        return result;
     }
 }
