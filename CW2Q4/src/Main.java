@@ -41,7 +41,7 @@ public class Main {
     public static String removeChar(String words, char toReplace) {
         String result = "";
         // loops through the string
-        for (int i = 0; i < words.length(); i++) {
+        for (int i = 0; i < length(words); i++) {
             // if the character the current index is located at is NOT the word to replace then it adds it to the string
             // otherwise it does not add it, therefore the character is removed
             char character = getChar(words,i);
@@ -178,7 +178,6 @@ public class Main {
                 address = nextNode;
                 currentNode = linkedList[address];
                 nextNode = currentNode.getPointer() ^ prevNode;
-                //System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
             }
         }
     }
@@ -198,6 +197,11 @@ public class Main {
             currentNode = linkedList[address];
             System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
         }
+    }
+
+    public static int length(String text) {
+        char[] textSplit = text.toCharArray();
+        return textSplit.length;
     }
 
 }
