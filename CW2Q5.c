@@ -40,8 +40,14 @@ void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) 
 
 int lengthToNextWord(char *text, int index) {
     int num = 0;
-    while ((index + num) < stringLength(text) && (text[index + num] != ' ' || text[index + num] != '\n')) {
-        num++;
+    while ((index + num) < stringLength(text)) {
+        if (text[index + num] == ' ' || text[index + num] == '\n') {
+            //printf("Here\n");
+            break;
+        } else { 
+            num++; 
+        }
+        //printf("text[index+num] %c\n", text[index + num]);
     }
     return num + 1;
 }
