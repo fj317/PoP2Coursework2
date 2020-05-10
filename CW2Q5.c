@@ -72,12 +72,8 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
             bool matched = false;
             bool punctuationEnd = false;
             int currentIndex = currentItem->charIndex;
-            printf("i is %d. text[i] %c. redactWords[currentIndex] %c.\n", i, text[i], redactWords[currentIndex]);
             while (text[i] == redactWords[currentIndex] || punctuationEnd == true) {
-                //printf("Punctuation or match. text[i] = %c\n", text[i]);
-                printf("i is %d. text[i] %c. redactWords[currentIndex] %c.\n", i, text[i], redactWords[currentIndex]);
                 if (text[i] < 'A' && redactWords[currentIndex] == ' ') {
-                    printf("Deal with redact\n");
                     for (int j = wordStart; j < i; j++) {
                         text[j] = '*';
                     }
