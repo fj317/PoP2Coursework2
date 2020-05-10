@@ -1,34 +1,66 @@
+import java.io.*;
+
 public class Main {
 
-    public static void main(String[] args) {
-        Node[] linkedList = new Node[60];
-        setupList(linkedList);
-        Node newObj = new Node("data1", 0);
-        Node newObj2 = new Node("data2", 0);
-        Node newObj3 = new Node("data3", 0);
-        Node newObj4 = new Node("Freddie", 0);
+    public static void main(String[] args) throws IOException {
+        // reads from local file names.txt
+        File file = new File("../Files/Names/names.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        // stores the names that are read from txt file
+        String line;
+        // stores the list of names as an array
+        String[] names = new String[0];
+        // reads the names from names.txt
+        while ((line = br.readLine()) != null) {
+            // removes " from around each name
+            line = removeChar(line, '"');
+            // splits the text into a string array every time a , occurs
+            names = line.split(",");
+        }
+        int nameLength = names.length;
+        Node[] linkedList = new Node[nameLength + 2];
+        setupHeadTail(linkedList);
+        Node tempObj;
+        for (int i = 0; i < nameLength; i++) {
+            tempObj = new Node(names[i], 0);
+            insertBefore("TAIL", tempObj, linkedList);
+        }
 
-        insertAfter("HEAD",newObj, linkedList);
-        insertAfter("HEAD",newObj2, linkedList);
-        insertAfter("HEAD",newObj3, linkedList);
-        insertBefore("data2", newObj4, linkedList);
-        removeAfter("data2", linkedList);
+        // TESTING
+        Node newObj = new Node("Data1", 0);
+        removeBefore("PATRICIA", linkedList);
+        insertAfter("LINDA", newObj, linkedList);
+        newObj = new Node("Data2", 0);
+        removeAfter("BARBARA", linkedList);
+        insertBefore("MARIA", newObj, linkedList);
+        
         outputList(linkedList);
     }
 
-    public static Node[] setupList(Node[] linkedList) {
-        for (int i = 0; i < 60; i++) {
-            linkedList[i] = new Node(null, 0);
+    // removes a char from a string and replaces it with no character
+    public static String removeChar(String words, char toReplace) {
+        String result = "";
+        // loops through the string
+        for (int i = 0; i < words.length(); i++) {
+            // if the character the current index is located at is NOT the word to replace then it adds it to the string
+            // otherwise it does not add it, therefore the character is removed
+            char character = getChar(words,i);
+            if (character != toReplace) {
+                result += character;
+            }
         }
-        setupHeadTail(linkedList);
-        return linkedList;
+        return result;
+    }
+
+    // gets the char from word at the specified index and returns it
+    public static char getChar(String word, int index) {
+        char[] wordSplit = word.toCharArray();
+        return wordSplit[index];
     }
 
     public static Node[] setupHeadTail(Node[] linkedList) {
-        linkedList[0].setName("HEAD");
-        linkedList[0].setPointer(1);
-        linkedList[1].setName("TAIL");
-        linkedList[1].setPointer(0);
+        linkedList[0] = new Node("HEAD", 1);
+        linkedList[1] = new Node("TAIL", 0);
         return linkedList;
     }
 
@@ -92,7 +124,7 @@ public class Main {
 
     public static int findFreeSpace(Node[] linkedList) {
         for (int i = 0; i < linkedList.length; i++) {
-            if (linkedList[i].getName() == null) {
+            if (linkedList[i] == null) {
                 return i;
             }
         }
@@ -113,8 +145,7 @@ public class Main {
                 currentNode.setPointer(prevNode ^ nextNode);
                 // update the item after the node to be removed's pointer
                 linkedList[nextNode].setPointer(address ^ (toRemoveNode ^ linkedList[nextNode].getPointer()));
-                linkedList[toRemoveNode].setName(null);
-                linkedList[toRemoveNode].setPointer(0);
+                linkedList[toRemoveNode] = null;
                 break;
             } else if (currentNode.getName().equals("TAIL")) {
                 break;
@@ -140,8 +171,7 @@ public class Main {
                 currentNode.setPointer(prevNode ^ nextNode);
                 // update the item after the node to be removed's pointer
                 linkedList[nextNode].setPointer(prevNode ^ (toRemoveNode ^ linkedList[nextNode].getPointer()));
-                linkedList[toRemoveNode].setName(null);
-                linkedList[toRemoveNode].setPointer(0);
+                linkedList[toRemoveNode] = null;
                 break;
             } else {
                 prevNode = address;
