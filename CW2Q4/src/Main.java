@@ -33,7 +33,7 @@ public class Main {
         newObj = new Node("Data2", 0);
         removeAfter("BARBARA", linkedList);
         insertBefore("MARIA", newObj, linkedList);
-        
+
         outputList(linkedList);
     }
 
