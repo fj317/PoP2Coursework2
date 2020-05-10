@@ -52,6 +52,6 @@ Own implementation methods: strlen
 
 ### Q8
 Language: **Java**  
-Program calculates the number of Tuesdays that land on the 1st and outputs the result to the console. The calculated result was **171** Tuesdays since 1st January 1901 to 31st December 2000.
+Program calculates the number of Tuesdays that land on the 1st and outputs the result to the console. The calculated result was **171** Tuesdays since 1st January 1901 to 31st December 2000.  
 Built in methods used: None  
 Own implementation methods: mod  
