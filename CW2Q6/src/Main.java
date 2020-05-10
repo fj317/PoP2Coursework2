@@ -24,7 +24,6 @@ public class Main {
             text = text + line + " ";
         }
 
-        //System.out.println(text);
         for (int i = 1; i < length(text); i++) {
             char currentChar = getChar(text, i);
             // if text is a capital, and previous character was a space, and the character before that was not a fullstop
@@ -131,7 +130,7 @@ public class Main {
     public static String removeChar(String words, char toReplace) {
         String result = "";
         // loops through the string
-        for (int i = 0; i < words.length(); i++) {
+        for (int i = 0; i < length(words); i++) {
             // if the character the current index is located at is NOT the word to replace then it adds it to the string
             // otherwise it does not add it, therefore the character is removed
             char character = getChar(words,i);
