@@ -3,16 +3,15 @@ public class Main {
     public static void main(String[] args) {
         Node[] linkedList = new Node[60];
         setupList(linkedList);
-        System.out.println("Work");
         Node newObj = new Node("data1", 0);
         Node newObj2 = new Node("data2", 0);
         Node newObj3 = new Node("data3", 0);
 
         insertAfter("HEAD",newObj, linkedList);
         insertAfter("HEAD",newObj2, linkedList);
-        insertAfter("HEAD",newObj3, linkedList);
-        removeAfer("data2", linkedList);
-        //outputList(linkedList);
+        //insertAfter("HEAD",newObj3, linkedList);
+        insertBefore("data2", newObj3, linkedList);
+        outputList(linkedList);
     }
 
     public static Node[] setupList(Node[] linkedList) {
@@ -36,7 +35,6 @@ public class Main {
         int prevNode = 0;
         int nextNode;
         Node currentNode = linkedList[address];
-        //Node nextNode = null;
         for (int i = 0; i < linkedList.length; i++) {
             if (currentNode.getName().equals(after)) {
                 // update pointer address for the new object
@@ -61,6 +59,35 @@ public class Main {
             }
         }
     }
+
+    public static void insertBefore(String before, Node newObj, Node[] linkedList) {
+        int address = 0;
+        int prevNode = 0;
+        Node currentNode = linkedList[address];
+        int nextNode = currentNode.getPointer() ^ prevNode;
+        for (int i = 0; i < linkedList.length; i++) {
+            if (linkedList[nextNode].getName().equals(before)) {
+                // update pointer address for the new object
+                newObj.setPointer(address ^ (currentNode.getPointer() ^ prevNode));
+                // find free space in the list
+                int newIndex = findFreeSpace(linkedList);
+                // add object to list
+                linkedList[newIndex] = newObj;
+                // updating the next item in the list's pointer to include the new item
+                nextNode = prevNode ^ currentNode.getPointer();
+                linkedList[nextNode].setPointer(newIndex ^ (address ^ linkedList[nextNode].getPointer()));
+                // updating the current pointer to include the new item
+                currentNode.setPointer(newIndex ^ prevNode);
+                break;
+            } else {
+                prevNode = address;
+                address = nextNode;
+                currentNode = linkedList[address];
+                nextNode = currentNode.getPointer() ^ prevNode;
+            }
+        }
+    }
+
 
     public static void outputList(Node[] linkedList) {
         int address = 0;
@@ -89,10 +116,6 @@ public class Main {
         return -1;
     }
 
-    public static void insertBefore(String before, Node newObj) {
-
-    }
-
     public static void removeAfer(String after, Node[] linkedList) {
         int address = 0;
         int prevNode = 0;
@@ -108,10 +131,6 @@ public class Main {
                 linkedList[nextNode].setPointer(address ^ (toRemoveNode ^ linkedList[nextNode].getPointer()));
                 linkedList[toRemoveNode].setName(null);
                 linkedList[toRemoveNode].setPointer(0);
-                System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode + ". NextNode: " + nextNode);
-
-
-
                 break;
             } else if (currentNode.getName().equals("TAIL")) {
                 break;
