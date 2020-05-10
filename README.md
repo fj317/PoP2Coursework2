@@ -23,12 +23,13 @@ Own implementation methods: strlen (& created own boolean type)
 
 ### Q4
 Language: **Java**  
-Reads the names in from names.txt. Adds every single name into the XOR linked list in order of the names.txt file (i.e. each is placed 1 item before the end). Contains some testing code that adds two values (one before and one after a name) as well as removes two values (one before and one after a name). This testing data changes elements at the start of the XOR list to help debug as it can be quickly found. Syntax for creating new nodes, and inserting & removing these nodes:
+Reads the names in from names.txt. Adds every single name into the XOR linked list in order of the names.txt file (i.e. each is placed 1 item before the end). Contains some testing code that adds two values (one before and one after a name) as well as removes two values (one before and one after a name). This testing data changes elements at the start of the XOR list to help debug as it can be quickly found.  
+Syntax for creating new nodes, and inserting & removing these nodes:
 `Node name = new Node(String datavalue, int pointer)` where name dictates the name of the new node object, `datavalue` is the string data (i.e. "Mary") and `pointer` is 0.  
 `insertAfter(String after, Node newobj, Node[] linkedList)` - where `after` is the datavalue to place the `newobj` after in the list, `newobj` is the new node item to add into the list, and `linkedList` is the list itself.  
 `insertBefore(String before, Node newobj, Node[] linkedList)` - same as above except `before` is the datavalue to place the `newobj` before in the list.  
 `removeAfter(Stirng after, Node[] linkedList)` - where `after` is the datavalue which is 1 node before the node to remove and `linkedList` is the linked list itself.  
-`removeBefore(Stirng before, Node[] linkedList)` - where `before` is the datavalue which is 1 node after the node to remove. `linkedList` is the list itself again.  
+`removeBefore(Stirng before, Node[] linkedList)` - where `before` is the datavalue which is 1 node after the node to remove. `linkedList` is the list itself again.    
 Built in methods used: toCharArray  
 Own implementation methods: getChar, length  
 
@@ -51,5 +52,6 @@ Own implementation methods: strlen
 
 ### Q8
 Language: **Java**  
+Program calculates the number of Tuesdays that land on the 1st and outputs the result to the console. The calculated result was **171** Tuesdays since 1st January 1901 to 31st December 2000.
 Built in methods used: None  
 Own implementation methods: mod  
