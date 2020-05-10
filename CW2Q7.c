@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h> 
 
 int stringLength(char* pointer) {
     int length = 0;
@@ -58,7 +59,6 @@ void padMessage(char *text, char *padText, int paddedLength) {
     int textLength = stringLength(text);
     for (int i = 0; i < textLength; i++) {
         padText[i] = text[i];
-        
     }
     int count = textLength;
     while (count != paddedLength) {
@@ -67,12 +67,45 @@ void padMessage(char *text, char *padText, int paddedLength) {
     }
 }
 
+// takes a character and puts it into uppercase (or leave it as a punctuation mark)
+char toUpper(char character) {
+    if (character >= 97 && character <= 122) {
+        character -= 32;
+    }
+    return character;
+}
+
 int main(void) {
-    char text[] = "ATTACKATDA";
-    char key[] = "KEYS";
+    // file reading
+    int c;
+    FILE *file;
+    file = fopen("Files/Q7/text.txt", "r");
+    // finds the length of the file
+    fseek(file, 0L, SEEK_END);
+    int fileLength = ftell(file);
+    fseek(file, 0L, SEEK_SET);
+    // resizes text to the size of the file
+    char text[fileLength];
+    //char *text = (char*) malloc ((fileLength + 1) * sizeof(char));
+    int fileCounter = 0;
+    int textCounter = 0;
+    if (file) {
+        while (fileCounter < fileLength) {
+            c = toUpper(getc(file));
+            if (c >= 65 && c <= 90) {
+                text[textCounter++] = c;
+            }
+            fileCounter++;
+            //printf("char %c\n", c);
+        }
+        fclose(file);
+    }
+
+    //char text[] = "It will now be inquired how the machine can of itself, and without having recourse to the hand of man, assume the successive dispositions suited to the operations. The solution of this problem has been taken from Jacquard's apparatus, used for the manufacture of brocaded stuffs, in the following manner.";
+    char key[] = "LOVELACE";
     
-    int paddedLength = stringLength(text) + (stringLength(text) % stringLength(key));
-    char paddedText[paddedLength];
+    int paddedLength = stringLength(key) * roundUp(stringLength(text), stringLength(key)) + 1;
+    char *paddedText = (char*) malloc (paddedLength * sizeof(char));
     padMessage(text, paddedText, paddedLength);
     printf("Pad message: %s\n", paddedText);
 
@@ -80,7 +113,7 @@ int main(void) {
     int columnNum = stringLength(key);
     char columns[rowNum][columnNum];
 
-    printf("Original text %s. Key: %s. ", text, key);
+    printf("Key: %s.\n", key);
     columnCreate(key, paddedText, columns);
     bubbleSortText(key, columns, rowNum);
     int forLength = stringLength(paddedText) / stringLength(key);
