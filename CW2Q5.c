@@ -42,12 +42,10 @@ int lengthToNextWord(char *text, int index) {
     int num = 0;
     while ((index + num) < stringLength(text)) {
         if (text[index + num] == ' ' || text[index + num] == '\n') {
-            //printf("Here\n");
             break;
         } else { 
             num++; 
         }
-        //printf("text[index+num] %c\n", text[index + num]);
     }
     return num + 1;
 }
@@ -72,19 +70,26 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
         currentItem = firstItem;
         while (currentItem != NULL) {
             bool matched = false;
+            bool punctuationEnd = false;
             int currentIndex = currentItem->charIndex;
-            //printf("i is %d. text[i] %c. redactWords[currentIndex] %c.\n", i, text[i], redactWords[currentIndex]);
-            while (text[i] == redactWords[currentIndex]) {
-                //printf("i is %d. text[i] %c. redactWords[currentIndex] %c.\n", i, text[i], redactWords[currentIndex]);
-                if (text[i] == ' ' && redactWords[currentIndex] == ' ') {
+            printf("i is %d. text[i] %c. redactWords[currentIndex] %c.\n", i, text[i], redactWords[currentIndex]);
+            while (text[i] == redactWords[currentIndex] || punctuationEnd == true) {
+                //printf("Punctuation or match. text[i] = %c\n", text[i]);
+                printf("i is %d. text[i] %c. redactWords[currentIndex] %c.\n", i, text[i], redactWords[currentIndex]);
+                if (text[i] < 'A' && redactWords[currentIndex] == ' ') {
+                    printf("Deal with redact\n");
                     for (int j = wordStart; j < i; j++) {
                         text[j] = '*';
                     }
                     matched = true;
                     break;
                 }
+                punctuationEnd = false;
                 i++;
                 currentIndex++;
+                if (text[i] < 'A') {
+                    punctuationEnd = true;
+                }
             }
             if (matched) {
                 break;
@@ -129,7 +134,7 @@ int main(void) {
             } else if (c == '\n') {
                 text[counter++] = '\n';
             } else {
-                text[counter++] = ' ';
+                text[counter++] = c;
             }
         }
         // close file reader
