@@ -6,12 +6,13 @@ public class Main {
         Node newObj = new Node("data1", 0);
         Node newObj2 = new Node("data2", 0);
         Node newObj3 = new Node("data3", 0);
+        Node newObj4 = new Node("Freddie", 0);
 
         insertAfter("HEAD",newObj, linkedList);
         insertAfter("HEAD",newObj2, linkedList);
         insertAfter("HEAD",newObj3, linkedList);
-        //insertBefore("data2", newObj3, linkedList);
-        removeBefore("data2", linkedList);
+        insertBefore("data2", newObj4, linkedList);
+        removeAfter("data2", linkedList);
         outputList(linkedList);
     }
 
@@ -89,24 +90,6 @@ public class Main {
         }
     }
 
-
-    public static void outputList(Node[] linkedList) {
-        int address = 0;
-        int prevNode = 0;
-        int nextNode;
-        Node currentNode = linkedList[address];
-        for (int i = 0; i < linkedList.length; i++) {
-            if (currentNode.getName().equals("TAIL")) {
-                break;
-            }
-            nextNode = currentNode.getPointer() ^ prevNode;
-            prevNode = address;
-            address = nextNode;
-            currentNode = linkedList[address];
-            System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
-        }
-    }
-
     public static int findFreeSpace(Node[] linkedList) {
         for (int i = 0; i < linkedList.length; i++) {
             if (linkedList[i].getName() == null) {
@@ -140,7 +123,6 @@ public class Main {
             prevNode = address;
             address = nextNode;
             currentNode = linkedList[address];
-            System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
             }
         }
     }
@@ -168,6 +150,23 @@ public class Main {
                 nextNode = currentNode.getPointer() ^ prevNode;
                 //System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
             }
+        }
+    }
+
+    public static void outputList(Node[] linkedList) {
+        int address = 0;
+        int prevNode = 0;
+        int nextNode;
+        Node currentNode = linkedList[address];
+        for (int i = 0; i < linkedList.length; i++) {
+            if (currentNode.getName().equals("TAIL")) {
+                break;
+            }
+            nextNode = currentNode.getPointer() ^ prevNode;
+            prevNode = address;
+            address = nextNode;
+            currentNode = linkedList[address];
+            System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
         }
     }
 
