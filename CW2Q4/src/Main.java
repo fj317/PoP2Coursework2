@@ -9,8 +9,9 @@ public class Main {
 
         insertAfter("HEAD",newObj, linkedList);
         insertAfter("HEAD",newObj2, linkedList);
-        //insertAfter("HEAD",newObj3, linkedList);
-        insertBefore("data2", newObj3, linkedList);
+        insertAfter("HEAD",newObj3, linkedList);
+        //insertBefore("data2", newObj3, linkedList);
+        removeBefore("data2", linkedList);
         outputList(linkedList);
     }
 
@@ -116,7 +117,7 @@ public class Main {
         return -1;
     }
 
-    public static void removeAfer(String after, Node[] linkedList) {
+    public static void removeAfter(String after, Node[] linkedList) {
         int address = 0;
         int prevNode = 0;
         int nextNode;
@@ -134,17 +135,40 @@ public class Main {
                 break;
             } else if (currentNode.getName().equals("TAIL")) {
                 break;
-            }
+            } else {
             nextNode = currentNode.getPointer() ^ prevNode;
             prevNode = address;
             address = nextNode;
             currentNode = linkedList[address];
             System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
+            }
         }
     }
 
-    public static void removeBefore(String before) {
-
+    public static void removeBefore(String before, Node[] linkedList) {
+        int address = 0;
+        int prevNode = 0;
+        Node currentNode = linkedList[address];
+        int nextNode = currentNode.getPointer() ^ prevNode;
+        for (int i = 0; i < linkedList.length; i++) {
+            if (linkedList[nextNode].getName().equals(before)) {
+                int toRemoveNode = address;
+                currentNode = linkedList[prevNode];
+                // update the current item's pointer to point to the node after the removed node
+                currentNode.setPointer(prevNode ^ nextNode);
+                // update the item after the node to be removed's pointer
+                linkedList[nextNode].setPointer(prevNode ^ (toRemoveNode ^ linkedList[nextNode].getPointer()));
+                linkedList[toRemoveNode].setName(null);
+                linkedList[toRemoveNode].setPointer(0);
+                break;
+            } else {
+                prevNode = address;
+                address = nextNode;
+                currentNode = linkedList[address];
+                nextNode = currentNode.getPointer() ^ prevNode;
+                //System.out.println("Data item " + currentNode.getName() + ". CurrentPointer: " + currentNode.getPointer() + ". PrevNode: " + prevNode);
+            }
+        }
     }
 
 }
