@@ -32,9 +32,15 @@ public class Main {
             if (currentChar >= 65 && currentChar <= 90 && getChar(text, i - 1) == 32 && getChar(text, i - 2) != 46 && (currentChar != 'I' && getChar(text, i + 1) != ' ')) {
                 //if (currentChar != 'I' && getChar(text, i + 1) != ' ')
                 text = removeWords(text, i);
-            } else if ((currentChar == 46 || currentChar == 10) && i < length(text) - 1) { // need to check if word is proper noun if at start of sentence or paragraph
+
+                // need to check if word is proper noun if at start of sentence or paragraph
+                // if the currentchar is a linebreak or fullstop and we are not at the end of the text
+            } else if ((currentChar == 46 || currentChar == 10) && i < length(text) - 1) {
+                // create the redactedList
                 String[] redactedList = getRedactedArray(redact);
+                // get what the current word is
                 String currentWord = getWordAtIndex(text, i + 2);
+                // if currentWord is equal to the word in the reacted list then remove it
                 for (int j = 1; j < redactedList.length; j++) {
                     if (currentWord.equals(redactedList[j])) {
                         text = removeWords(text, i + 2);
@@ -42,21 +48,30 @@ public class Main {
                 }
             }
         }
+        // file output
         File fileOutput = new File("../Files/Q6/redactedOutput.txt");
+        // attempt to create a new file
         fileOutput.createNewFile();
+        // setup file writer to the specified file
         FileWriter fileWriter = new FileWriter(fileOutput);
+        // write the text to the file
         fileWriter.write(text);
         fileWriter.close();
         System.out.println("Redacted text has been outputted to file.");
     }
 
+    // turn the string of reacted words into an array with each index storing 1 word
     public static String[] getRedactedArray(String redactedWordsList) {
         String[] redactedWordsArray = new String[1];
         String redactedWord;
         int startIndex = 0;
+        // while the start index is less than the length of the string redactedWodrdList
         while (startIndex < length(redactedWordsList)) {
+            // get the word at the start index
             redactedWord = getWordAtIndex(redactedWordsList, startIndex);
+            // add this word to the array
             redactedWordsArray = addElement(redactedWordsArray, redactedWord);
+            // update the start index to move to the start of the next word
             startIndex = getWordEndIndex(redactedWordsList,startIndex) + 1;
         }
         return redactedWordsArray;
@@ -80,9 +95,13 @@ public class Main {
         return array;
     }
 
+    // return the word at startIndex
     public static String getWordAtIndex(String text, int startIndex) {
+        // get the ending index of the word
         int endIndex = getWordEndIndex(text, startIndex);
+        // get the word by finding the substring between the start and end index of the word
         String word = text.substring(startIndex, endIndex);
+        // return this value
         return word;
     }
 
@@ -98,18 +117,24 @@ public class Main {
         return length(text);
     }
 
+    // remove the word at 'startIndex' in 'text' and replace with *s
     public static String removeWords(String text, int startIndex) {
+        // loop through startIndex to the end of the text
         for (int i = startIndex; i < length(text); i++) {
+            // if the character is not a letter then we know its the end of the word
             if (getChar(text, i) >= 32 && getChar(text, i) <= 45) {
+                // repalce the char from the start of the word to one less than the current char with a *
                 for (int j = startIndex; j < i; j++) {
                     text = replaceCharAt(text, j, '*');
                 }
+                // exit the for loop
                 break;
             }
         }
         return text;
     }
 
+    // replace the char at 'index' in 'text' with 'replaceWith'
     public static String replaceCharAt(String text, int index, char replaceWith) {
         return text.substring(0, index) + replaceWith + text.substring(index + 1, length(text));
     }
@@ -121,6 +146,7 @@ public class Main {
         return wordSplit[index];
     }
 
+    // gets the length of a string
     public static int length(String text) {
         char[] textSplit = text.toCharArray();
         return textSplit.length;
