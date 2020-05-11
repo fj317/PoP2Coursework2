@@ -122,7 +122,6 @@ int main(void) {
                 fileCounter ++;
                 continue;
             } else {
-                //printf("Current char %c\n", c);
                 // update currentSize to add the extra character
                 currentSize += sizeof(char);
                 // otherwise allocte space for the character
@@ -135,15 +134,10 @@ int main(void) {
         // close file reader
         fclose(file);
     }
-    //printf("Text is %s\n", name);
-
-
-    unsigned char text[] = "Freddie";
-    unsigned char nameTest[] = "KARA";
+    unsigned char nameTest[] = "MARY";
 
 
     printf("Is there a value for %s? %d\n", nameTest, search(nameTest, hashArray, tableSize));
     removeName(nameTest, hashArray, tableSize);
-    unsigned long hashIndex = hash(text) - 1;
     printf("Is there a value for %s? %d\n", nameTest, search(nameTest, hashArray, tableSize));
 }
