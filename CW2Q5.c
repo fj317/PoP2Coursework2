@@ -167,23 +167,31 @@ int main(void) {
         while (counter < fileLength) {
             // turn character read from file to upper case
             c = toUpper(getc(file));
+            // if the character is a newline
             if (c == '\n') {
+                // update the size of redact word so we can add a space before the newline
                 currentSize += sizeof(char);
                 redactWords = realloc(redactWords, currentSize);
+                // add the space in
                 redactWords[counter++] = ' ';
+                // add 1 to the length of the file so it doesen't miss out the last word in the list
                 fileLength++;
             }
+            // add the character to redact words
             redactWords[counter++] = c;
         }
         // close file reader
         fclose(file);
     }
+    // add a final newline at the end of the file
     redactWords[fileLength] = '\n';
 
     struct RedactedListItem firstItem;
+    // setup the redacted list
     setupRedactedList(&firstItem, redactWords);
-    //printf("first redact index: %d, second index %d, third index %d\n", firstItem.charIndex, firstItem.nextItem->charIndex, firstItem.nextItem->nextItem->charIndex);
+    // redact all occurances of redactedWords in the text
     removeWords(text, redactWords, &firstItem);
+    // print to console
     printf("%s", text);
     return 0;
 }
