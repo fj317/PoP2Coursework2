@@ -6,9 +6,9 @@ typedef int bool;
 #define true 1
 #define false 0
 
+// struct to store the starting index of each of the redacted words
 struct RedactedListItem {
     int charIndex;
-    int item;
     struct RedactedListItem* nextItem;
 };
 
@@ -21,80 +21,94 @@ int stringLength(char* ptr) {
     return length;
 }
 
+// finds the starting index for each of the redacted words
 void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) {
     int len = stringLength(redactedWords);
-    int count = 0;
+    // intialise the first one to 0
     firstItem->charIndex = 0;
-    firstItem->item = count++;
     struct RedactedListItem *thisItem = firstItem;
     for (int i = 1; i < len; i++) {
+        // if the current item's character is a linebreak then we know this is the end of the redacted word
         if (redactedWords[i] == '\n') {
+            // allocate memory for the next redacted word
             struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(sizeof(struct RedactedListItem));
+            // set the next redacted word's char index to the next character
             newItem->charIndex = ++i;
-            newItem->item = count++;
+            // update the pointer to point to the next redacted word
             thisItem->nextItem = newItem;
+            // set the current item to the next redacted word
             thisItem = newItem;
         }
     }
 }
 
+// finds the length to the next word in the text
 int lengthToNextWord(char *text, int index) {
     int num = 0;
+    // while the index and num is less than the length of the text
     while ((index + num) < stringLength(text)) {
+        // checks if the location pointed by index + num is a space or linebreak
         if (text[index + num] == ' ' || text[index + num] == '\n') {
+            // if it is break the while loop
             break;
         } else { 
+            // otherwise add one to num and repeat
             num++; 
         }
     }
+    // repeat num + 1 (plus 1 as otherwise it would return the space or linebreak character)
     return num + 1;
 }
 
-int countRedactedSpaces(char *redactWords) {
-    int len = stringLength(redactWords);
-    int spaceCount = 0;
-    for (int i = 0; i < len; i++) {
-        if (redactWords[i] == ' ') {
-            spaceCount ++;
-        }
-    }
-    return spaceCount;
-}
-
+// replaces the redacted words in the text with *s
 void removeWords(char* text, char *redactWords, struct RedactedListItem* firstItem) {
     int len = stringLength(text);
-    int count = 0;
+    // loop through the text in additions to the start of each word
     for (int i = 0; i < len; i = i + lengthToNextWord(text, i)) {
+        // stores the start of the word
         int wordStart = i;
+        // stores the current redacted word
         struct RedactedListItem *currentItem;
         currentItem = firstItem;
+        // while not at the end of the redacted words
         while (currentItem != NULL) {
+            // stores whether the entire word has matched or not
             bool matched = false;
+            // stores whether the current character is punctuation
             bool punctuationEnd = false;
+            // stores the current index of the redacted word
             int currentIndex = currentItem->charIndex;
+            // while the two characters match OR the text has punctuation at the end
             while (text[i] == redactWords[currentIndex] || punctuationEnd == true) {
+                // checks if the text is a punctuation mark or space AND the redactedWord character is a space
                 if (text[i] < 'A' && redactWords[currentIndex] == ' ') {
+                    // if so then loop through the word in the text and set each character to a star
                     for (int j = wordStart; j < i; j++) {
                         text[j] = '*';
                     }
+                    // set match to true and break out the while loop
                     matched = true;
                     break;
                 }
+                // set punctuationEnd to false
                 punctuationEnd = false;
+                // move to next character of the text and redacted words to check if they match
                 i++;
                 currentIndex++;
+                // if the text character is a punctuation then set punctuation end to true
                 if (text[i] < 'A') {
                     punctuationEnd = true;
                 }
             }
+            // if matched is true then break out the while loop as there is no need to check for other redacted words
             if (matched) {
                 break;
             } else {
+                // otherwise move back to the start of the word
                 i = wordStart;
             }
-            
+            // move to next redacted word
             currentItem = currentItem->nextItem;
-            count++;
         }
     }
 }
@@ -162,7 +176,7 @@ int main(void) {
         // close file reader
         fclose(file);
     }
-    //redactWords[fileLength] = '\n';
+    redactWords[fileLength] = '\n';
 
     struct RedactedListItem firstItem;
     setupRedactedList(&firstItem, redactWords);
