@@ -35,7 +35,7 @@ Own implementation methods: getChar, length
 
 ### Q5
 Language: **C**  
-Program is able to read from the two text files and inputs the files and redacts the text from the redact file with any occurances that occur in the txt file. If you want to change the input data then comment out all filereading and uncomment the two lines that below (LINES XXX). NOTE: when adding your own redact words the final character must be space in order for the word to be properly compared against each value in the text.  
+Program is able to read from the two text files and inputs the files and redacts the text from the redact file with any occurances that occur in the txt file. If you want to change the input data then change the data that is contained within the debate.txt and redact.txt files as these files are read for the input to redact.
 Built in methods used: malloc, sizeOf, realloc  
 Own implementation methods: strlen, toUpper (& created own boolean type).  
 
