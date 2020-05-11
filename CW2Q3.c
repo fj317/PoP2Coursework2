@@ -150,8 +150,6 @@ int main(void) {
         fclose(file);
     }
     unsigned char nameTest[] = "MARY";
-
-
     printf("Is there a value for %s? %d\n", nameTest, search(nameTest, hashArray, tableSize));
     removeName(nameTest, hashArray, tableSize);
     printf("Is there a value for %s? %d\n", nameTest, search(nameTest, hashArray, tableSize));
