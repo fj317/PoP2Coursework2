@@ -35,7 +35,7 @@ Syntax for creating new nodes, and inserting & removing these nodes:
 `insertBefore(String before, Node newobj, Node[] linkedList)` - same as above except `before` is the datavalue to place the `newobj` before in the list.  
 `removeAfter(Stirng after, Node[] linkedList)` - where `after` is the datavalue which is 1 node before the node to remove and `linkedList` is the linked list itself.  
 `removeBefore(Stirng before, Node[] linkedList)` - where `before` is the datavalue which is 1 node after the node to remove. `linkedList` is the list itself again.  
-Built in methods used: toCharArray  
+Built in methods used: toCharArray, equals  
 Own implementation methods: getChar, length  
 
 ### Q5
