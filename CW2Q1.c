@@ -126,13 +126,13 @@ int main(void) {
     int *ptr;
     ptr = generate100Rand();
     // prints unsorted list
-    printf("Unsorted List: ");
+    printf("Unsorted List:\n");
     for (int i = 0; i < 100; i++ ) {
       printf( "Number: %d : %d\n", i+1, *(ptr + i));
     }
     // sorts
     ptr = cocktailSort(ptr);
-
+    printf("\nSorted List:\n");
     // output sorted list
     for (int i = 0; i < 100; i++ ) {
       printf( "Number: %d : %d\n", i+1, *(ptr + i));
