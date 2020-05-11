@@ -42,6 +42,7 @@ void bubbleSortText(char *key, char (*columns)[stringLength(key)], int rowNum) {
     } while (swapped == 1);
 }
 
+// divides two numbers and returns the rounded up result
 // https://stackoverflow.com/questions/2422712/rounding-integer-division-instead-of-truncating
 // takes form of eg roundUP(12, 5) = 3
 unsigned int roundUp(int dividend, int divisor)
