@@ -28,7 +28,7 @@ unsigned long hash(unsigned char *str)
     while (0 != (c = *str++)) {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
     }
-    return hash / 100;
+    return hash / 1000000;
 }
 
 bool search(unsigned char name[], struct dataItem* hashArray, unsigned long maxTableSize) {
@@ -54,13 +54,13 @@ void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
 // add method, needs to return pointer to start of array as it may resize depending on the input to dynamicly adjust the amount of memory needed
 struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsigned long *tableSize) {
     unsigned long hashResult = hash(name);
+    //printf("Hash result: %lu, vs table size %lu\n", hashResult, *tableSize);
     if (hashResult > *tableSize) {
         hashArray = realloc(hashArray, sizeof(struct dataItem) * hashResult);
         *tableSize = hashResult;
     }
     struct dataItem *firstChar = (struct dataItem*) malloc(sizeof(struct dataItem));
     setupDataItem(name, firstChar);
-    printf("Size of dataitem %lu vs size of firstChar %lu\n", sizeof(struct dataItem), sizeof(firstChar));
     hashArray[hashResult - 1] = *firstChar;
     printf("Data item %s has been added.\n", name);
     return hashArray;
@@ -101,18 +101,18 @@ int main(void) {
     int textCounter = 0;
     if (file) {
         // while not at end of file
-        while (fileCounter < 16) {
+        while (fileCounter < fileLength) {
             c = getc(file);
             if (c == ',') {
-                printf("Current string %s\n", name);
+                //printf("Current string %s\n", name);
                 // add the current name to the hash table
                 hashArray = addName(name, hashArray, &tableSize);
                 // deallocate memory as new word to add
                 free(name);
                 // resize back to one char
                 currentSize = sizeof(char);
-                // allocate space for the char
-                name = malloc (currentSize);
+                // allocate space for the next char
+                name = calloc (1, currentSize);
                 // reset textcounter to 0 as new word starts at 0
                 textCounter = 0;
                 // continue with the next character
@@ -139,14 +139,11 @@ int main(void) {
 
 
     unsigned char text[] = "Freddie";
-    unsigned char text2[] = "Abe";
+    unsigned char nameTest[] = "KARA";
 
 
-    
-    hashArray = addName(text, hashArray, &tableSize);
-    hashArray = addName(text2, hashArray, &tableSize);
-
-    removeName(text, hashArray, tableSize);
+    printf("Is there a value for %s? %d\n", nameTest, search(nameTest, hashArray, tableSize));
+    removeName(nameTest, hashArray, tableSize);
     unsigned long hashIndex = hash(text) - 1;
-    //printf("Is there a value for Freddie? %d", search(text, hashArray, tableSize));
+    printf("Is there a value for %s? %d\n", nameTest, search(nameTest, hashArray, tableSize));
 }
