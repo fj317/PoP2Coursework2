@@ -164,8 +164,6 @@ int main(void) {
     }
     //redactWords[fileLength] = '\n';
 
-    //char text[] = "the quick brown fox jumps over the lazy dog";
-    //char redactWords[] = "the lazy quick ";
     struct RedactedListItem firstItem;
     setupRedactedList(&firstItem, redactWords);
     //printf("first redact index: %d, second index %d, third index %d\n", firstItem.charIndex, firstItem.nextItem->charIndex, firstItem.nextItem->nextItem->charIndex);
