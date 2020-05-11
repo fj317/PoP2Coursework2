@@ -30,7 +30,7 @@ Own implementation methods: strlen (& created own boolean type)
 Language: **Java**  
 Reads the names in from names.txt. Adds every single name into the XOR linked list in order of the names.txt file (i.e. each is placed 1 item before the end). Contains some testing code that adds two values (one before and one after a name) as well as removes two values (one before and one after a name). This testing data changes elements at the start of the XOR list to help debug as it can be quickly found.  
 Syntax for creating new nodes, and inserting & removing these nodes:
-`Node name = new Node(String datavalue, int pointer)` where name dictates the name of the new node object, `datavalue` is the string data (i.e. "Mary") and `pointer` is 0.  
+`Node name = new Node(String datavalue, int pointer)` where name dictates the name of the new node object, `datavalue` is the string data (i.e. "Mary") and `pointer` should be intialised to 0.  
 `insertAfter(String after, Node newobj, Node[] linkedList)` - where `after` is the datavalue to place the `newobj` after in the list, `newobj` is the new node item to add into the list, and `linkedList` is the list itself.  
 `insertBefore(String before, Node newobj, Node[] linkedList)` - same as above except `before` is the datavalue to place the `newobj` before in the list.  
 `removeAfter(Stirng after, Node[] linkedList)` - where `after` is the datavalue which is 1 node before the node to remove and `linkedList` is the linked list itself.  
@@ -53,6 +53,7 @@ Own implementation methods: getChar, (string) length
 
 ### Q7
 Language: **C**  
+Encrypts the contents of the file text.txt with the key that is written in the code. To change the key change what the char array 'key' stores on line 124 to a different value. Program outputs the contents of the encrypted message to the console for the user to read and do with as they please.  
 Built in methods used: None  
 Own implementation methods: strlen, toUpper  
 
