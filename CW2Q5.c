@@ -168,8 +168,10 @@ int main(void) {
             // turn character read from file to upper case
             c = toUpper(getc(file));
             if (c == '\n') {
-                redactWords = realloc(redactWords, sizeof(char) + currentSize);
+                currentSize += sizeof(char);
+                redactWords = realloc(redactWords, currentSize);
                 redactWords[counter++] = ' ';
+                fileLength++;
             }
             redactWords[counter++] = c;
         }
