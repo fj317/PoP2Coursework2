@@ -18,6 +18,11 @@ Own implementation methods: getChar
 
 ### Q3
 Language: **C**  
+Adds all names from the names.txt file to the hash table, then searches to see if the name 'MARY' is in the table, it then attempts to remove 'MARY' from the table and searches again to see if it is still there. 
+Use the following methods to search, add and remove a new name value from the hash table:  
+`search(unsigned char name[], struct dataItem* hashArray, unsigned long maxTableSize)` - where `name` is the data to add to the table, `hashArray` is the hash table itself, and `maxTableSize` is the hash table's current size.  
+`addName(unsigned char name[], struct dataItem *hashArray, unsigned long *tableSize)` - same as above.  
+`removeName(unsigned char name[], struct dataItem* hashArray, unsigned long tableSize)` - same as above.  
 Built in methods used: malloc, realloc, sizeOf  
 Own implementation methods: strlen (& created own boolean type)  
 
@@ -29,13 +34,13 @@ Syntax for creating new nodes, and inserting & removing these nodes:
 `insertAfter(String after, Node newobj, Node[] linkedList)` - where `after` is the datavalue to place the `newobj` after in the list, `newobj` is the new node item to add into the list, and `linkedList` is the list itself.  
 `insertBefore(String before, Node newobj, Node[] linkedList)` - same as above except `before` is the datavalue to place the `newobj` before in the list.  
 `removeAfter(Stirng after, Node[] linkedList)` - where `after` is the datavalue which is 1 node before the node to remove and `linkedList` is the linked list itself.  
-`removeBefore(Stirng before, Node[] linkedList)` - where `before` is the datavalue which is 1 node after the node to remove. `linkedList` is the list itself again.    
+`removeBefore(Stirng before, Node[] linkedList)` - where `before` is the datavalue which is 1 node after the node to remove. `linkedList` is the list itself again.  
 Built in methods used: toCharArray  
 Own implementation methods: getChar, length  
 
 ### Q5
 Language: **C**  
-Program is able to read from the two text files and inputs the files and redacts the text from the redact file with any occurances that occur in the txt file. If you want to change the input data then change the data that is contained within the debate.txt and redact.txt files as these files are read for the input to redact.
+Program is able to read from the two text files and inputs the files and redacts the text from the redact file with any occurances that occur in the txt file. If you want to change the input data then change the data that is contained within the debate.txt and redact.txt files as these files are read for the input to redact.  
 Built in methods used: malloc, sizeOf, realloc  
 Own implementation methods: strlen, toUpper (& created own boolean type).  
 
