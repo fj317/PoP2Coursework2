@@ -28,16 +28,22 @@ unsigned long hash(unsigned char *str)
     while (0 != (c = *str++)) {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
     }
+    // divide by large number as results given are huge numbers so to avoid memory issues reduce the number size
     return hash / 1000000;
 }
 
+// search function
 bool search(unsigned char name[], struct dataItem* hashArray, unsigned long maxTableSize) {
+    // get the hash index of the data
     unsigned long hashIndex = hash(name) - 1;
+    // if the hash index is larger than the max table size return false
     if (hashIndex > maxTableSize) {
         return false;
+        // otherwise check if the value at the hash index is null, if it is return false
     } else if (hashArray[hashIndex].charValue == NULL) {
         return false;
     }
+    // otherwise return true as it must be there then
     return true;
 } 
 
@@ -45,7 +51,9 @@ bool search(unsigned char name[], struct dataItem* hashArray, unsigned long maxT
 void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
     int len = stringLength(name);
     int count = 0;
+    // allocate enough space for the string
     firstChar->charValue = (unsigned char*) malloc(stringLength(name) * sizeof(unsigned char));
+    // loop through setting each index to the name
     for (int i = 0; i < stringLength(name); i++) {
         firstChar->charValue[i] = name[i];
     }
@@ -54,14 +62,18 @@ void setupDataItem(unsigned char name[], struct dataItem *firstChar) {
 // add method, needs to return pointer to start of array as it may resize depending on the input to dynamicly adjust the amount of memory needed
 struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsigned long *tableSize) {
     unsigned long hashResult = hash(name);
-    //printf("Hash result: %lu, vs table size %lu\n", hashResult, *tableSize);
+    // resizes hashtable to new hash result if it is larger than the current size
     if (hashResult > *tableSize) {
         hashArray = realloc(hashArray, sizeof(struct dataItem) * hashResult);
         *tableSize = hashResult;
     }
+    // create the dataItem to place in the hashIndex
     struct dataItem *firstChar = (struct dataItem*) malloc(sizeof(struct dataItem));
+    // put the name in the dataItem
     setupDataItem(name, firstChar);
+    // put the dataitem in the correct location in the hashtable
     hashArray[hashResult - 1] = *firstChar;
+    // tell user it has been added
     printf("Data item %s has been added.\n", name);
     return hashArray;
 }
@@ -69,12 +81,16 @@ struct dataItem *addName(unsigned char name[], struct dataItem *hashArray, unsig
 // remove method, removes a value from the hash table
 void removeName(unsigned char name[], struct dataItem* hashArray, unsigned long tableSize) {
     unsigned long hashIndex = hash(name) - 1;
+    // if hash index is larger than table size then name isn't in the table
     if (hashIndex > tableSize) {
         printf("Name does not exist in table.\n");
+        // if there is no value at the hash index then the name isn't in the table
     } else if (hashArray[hashIndex].charValue == NULL) {
         printf("Name does not exist in table.\n");       
     } else {
+        // otherwise set the char value to null
         hashArray[hashIndex].charValue = NULL;
+        // tell the user it has been removed
         printf("Data item %s has been removed.\n", name);
     }
 }
@@ -119,7 +135,6 @@ int main(void) {
                 continue;
             } else if (c == '"') {
                 // if speechmarks do not add to the word, move to next character in file
-                fileCounter ++;
                 continue;
             } else {
                 // update currentSize to add the extra character
