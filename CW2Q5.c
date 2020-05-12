@@ -40,6 +40,9 @@ void setupRedactedList(struct RedactedListItem* firstItem, char* redactedWords) 
             thisItem = newItem;
         }
     }
+    struct RedactedListItem *newItem = (struct RedactedListItem*) malloc(sizeof(struct RedactedListItem));
+    newItem->charIndex = '0';
+    thisItem->nextItem = newItem;
 }
 
 // finds the length to the next word in the text
@@ -71,7 +74,7 @@ void removeWords(char* text, char *redactWords, struct RedactedListItem* firstIt
         struct RedactedListItem *currentItem;
         currentItem = firstItem;
         // while not at the end of the redacted words
-        while (currentItem != NULL) {
+        while (currentItem->charIndex != '0') {
             // stores whether the entire word has matched or not
             bool matched = false;
             // stores whether the current character is punctuation
