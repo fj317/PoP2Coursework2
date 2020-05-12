@@ -1,6 +1,8 @@
 # Principles of Programming 2 Coursework 2. 
 8 programs in C &amp; Java to solve some simple problems:
 
+All programs were created using Visual Studio Code for C programs, and IntelliJ for Java programs. They were tested locally on a MacOS machine, as well as on Linux.bath.ac.uk to ensure they worked on multiple machines using different compilers.  
+
 'Built in methods used' excludes using output functions or any methods that are used for inputting the files used for testing (as these were not part of the original task itself).
 Note: as length (of an array) is a property rather than method in Java it is not included.
 
