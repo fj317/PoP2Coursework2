@@ -13,7 +13,7 @@ int stringLength(char* ptr) {
 int stringToInt(char* ptr) {
     int len = stringLength(ptr);
     int result = 0;
-    for (int i = 0; i < len - 1; i++) {
+    for (int i = 0; i < len; i++) {
         result = result * 10 + (ptr[i] - '0');
     }
     return result;
@@ -53,11 +53,12 @@ int createRand(int seed) {
     intToString(nextString, nextRand, len);
 
     // takes the digits 3-7 as the next random number seed
-    char ret[4] = {
+    char ret[5] = {
         nextString[2],
         nextString[3],
         nextString[4],
-        nextString[5]
+        nextString[5],
+        '\0'
     };
     // convert back to integer
     int returnNum = stringToInt(ret);
